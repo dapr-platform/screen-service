@@ -1,0 +1,821 @@
+basePath: /swagger/screen-service
+definitions:
+  common.Page:
+    properties:
+      items: {}
+      page:
+        type: integer
+      page_size:
+        type: integer
+      total:
+        type: integer
+    type: object
+  common.Response:
+    properties:
+      data: {}
+      msg:
+        type: string
+      status:
+        type: integer
+    type: object
+  entity.GroupVo:
+    properties:
+      children:
+        items:
+          $ref: '#/definitions/entity.GroupVo'
+        type: array
+      id:
+        description: id
+        type: string
+      level:
+        description: level
+        type: integer
+      name:
+        description: 名称
+        type: string
+      parentId:
+        description: parent_id
+        type: string
+      sortNum:
+        type: integer
+      type:
+        type: string
+    type: object
+  entity.GroupVoItem:
+    properties:
+      id:
+        description: id
+        type: string
+      level:
+        description: level
+        type: integer
+      name:
+        description: 名称
+        type: string
+      parentId:
+        description: parent_id
+        type: string
+      sortNum:
+        type: integer
+      type:
+        type: string
+    type: object
+  entity.ProjectItem:
+    properties:
+      createTime:
+        type: string
+      createUserId:
+        type: string
+      id:
+        type: string
+      indexImage:
+        type: string
+      isDelete:
+        type: integer
+      projectName:
+        type: string
+      remarks:
+        type: string
+      state:
+        type: integer
+    type: object
+  entity.Topology:
+    properties:
+      createBy:
+        description: 创建人
+        type: string
+      createTime:
+        description: 创建时间
+        type: string
+      fileData:
+        description: 文件内容
+        type: string
+      groupId:
+        description: 分组id
+        type: string
+      id:
+        description: 唯一标识
+        type: string
+      keyName:
+        description: 标识
+        type: string
+      name:
+        description: 名称
+        type: string
+      parentId:
+        description: 父id
+        type: string
+      remark:
+        description: 备注
+        type: string
+      type:
+        description: 类型
+        type: string
+      updateBy:
+        description: 更新人
+        type: string
+      updateTime:
+        description: 更新时间
+        type: string
+    type: object
+  model.Big_screen:
+    properties:
+      content:
+        description: 内容
+        type: string
+      created_by:
+        description: 创建人
+        type: string
+      created_time:
+        description: 创建时间
+        type: string
+      id:
+        description: 唯一标识
+        type: string
+      index_image:
+        description: 首页图片
+        type: string
+      name:
+        description: 名称
+        type: string
+      remarks:
+        description: 备注
+        type: string
+      state:
+        description: 状态（-1未发布，1发布）
+        type: integer
+      updated_by:
+        description: 更新人
+        type: string
+      updated_time:
+        description: 更新时间
+        type: string
+    type: object
+  model.Group:
+    properties:
+      created_by:
+        description: 创建人
+        type: string
+      created_time:
+        description: 创建时间
+        type: string
+      id:
+        description: 唯一标识
+        type: string
+      level:
+        description: 层次
+        type: integer
+      name:
+        description: 名称
+        type: string
+      parent_id:
+        description: 父id
+        type: string
+      sort_num:
+        description: 排序
+        type: integer
+      type:
+        description: 分类
+        type: string
+      updated_by:
+        description: 更新人
+        type: string
+      updated_time:
+        description: 更新时间
+        type: string
+    type: object
+  model.Topology:
+    properties:
+      created_by:
+        description: 创建人
+        type: string
+      created_time:
+        description: 创建时间
+        type: string
+      file_data:
+        description: 文件内容
+        type: string
+      group_id:
+        description: 分组id
+        type: string
+      id:
+        description: 唯一标识
+        type: string
+      key_name:
+        description: 标识
+        type: string
+      name:
+        description: 名称
+        type: string
+      parent_id:
+        description: 父id
+        type: string
+      remark:
+        description: 备注
+        type: string
+      type:
+        description: 类型
+        type: string
+      updated_by:
+        description: 更新人
+        type: string
+      updated_time:
+        description: 更新时间
+        type: string
+    type: object
+info:
+  contact: {}
+  description: screen-service API
+  title: screen-service API
+  version: "1.0"
+paths:
+  /big-screen/delete:
+    delete:
+      description: 删除实例
+      parameters:
+      - description: 实例id
+        in: query
+        name: ids
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 实例
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.ProjectItem'
+              type: object
+        "500":
+          description: 错误code和错误信息
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 删除实例
+      tags:
+      - Big_screen
+  /group/{id}:
+    delete:
+      description: 删除实例
+      parameters:
+      - description: 实例id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 实例
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Group'
+              type: object
+        "500":
+          description: 错误code和错误信息
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 删除实例
+      tags:
+      - Group
+  /group/all-trees:
+    get:
+      description: 分组树
+      parameters:
+      - description: 分类
+        in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 实例的数组
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/entity.GroupVo'
+                  type: array
+              type: object
+        "500":
+          description: 错误code和错误信息
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 分组树
+      tags:
+      - Group
+  /group/batch-delete:
+    post:
+      consumes:
+      - application/json
+      description: 批量删除
+      parameters:
+      - description: id数组
+        in: body
+        name: ids
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功code和成功信息
+          schema:
+            $ref: '#/definitions/common.Response'
+        "500":
+          description: 错误code和错误信息
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 批量删除
+      tags:
+      - Group
+  /group/batch-upsert:
+    post:
+      consumes:
+      - application/json
+      description: 批量更新
+      parameters:
+      - description: 对象数组
+        in: body
+        name: entities
+        required: true
+        schema:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功code和成功信息
+          schema:
+            $ref: '#/definitions/common.Response'
+        "500":
+          description: 错误code和错误信息
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 批量更新
+      tags:
+      - Group
+  /group/save:
+    post:
+      consumes:
+      - application/json
+      description: 保存分组
+      parameters:
+      - description: Group全部信息
+        in: body
+        name: item
+        required: true
+        schema:
+          $ref: '#/definitions/entity.GroupVoItem'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 实例
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.GroupVoItem'
+              type: object
+        "500":
+          description: 错误code和错误信息
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 保存分组
+      tags:
+      - Group
+  /project/create:
+    post:
+      consumes:
+      - application/json
+      description: 保存实例
+      parameters:
+      - description: 实例全部信息
+        in: body
+        name: item
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 实例
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Big_screen'
+              type: object
+        "500":
+          description: 错误code和错误信息
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 保存实例
+      tags:
+      - Big_screen
+  /project/edit:
+    post:
+      consumes:
+      - application/json
+      description: 保存实例
+      parameters:
+      - description: 实例全部信息
+        in: body
+        name: item
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 实例
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Big_screen'
+              type: object
+        "500":
+          description: 错误code和错误信息
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 保存实例
+      tags:
+      - Big_screen
+  /project/getData:
+    get:
+      description: 查询数据
+      parameters:
+      - description: id
+        in: query
+        name: projectId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 实例的数组
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/common.Page'
+                  - properties:
+                      items:
+                        items:
+                          $ref: '#/definitions/entity.ProjectItem'
+                        type: array
+                    type: object
+              type: object
+        "500":
+          description: 错误code和错误信息
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 查询数据
+      tags:
+      - Big_screen
+  /project/list:
+    get:
+      description: 查询所有实例
+      parameters:
+      - description: current page
+        in: query
+        name: page
+        type: integer
+      - description: page size
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 实例的数组
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/common.Page'
+                  - properties:
+                      items:
+                        items:
+                          $ref: '#/definitions/entity.ProjectItem'
+                        type: array
+                    type: object
+              type: object
+        "500":
+          description: 错误code和错误信息
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 查询所有实例
+      tags:
+      - Big_screen
+  /project/publish:
+    put:
+      consumes:
+      - application/json
+      description: 保存大屏内容
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 实例
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Big_screen'
+              type: object
+        "500":
+          description: 错误code和错误信息
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 保存大屏内容
+      tags:
+      - Big_screen
+  /project/save/data:
+    post:
+      consumes:
+      - application/json
+      description: 保存大屏内容
+      parameters:
+      - description: id
+        in: formData
+        name: projectId
+        required: true
+        type: string
+      - description: content
+        in: formData
+        name: content
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 实例
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Big_screen'
+              type: object
+        "500":
+          description: 错误code和错误信息
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 保存大屏内容
+      tags:
+      - Big_screen
+  /project/upload:
+    post:
+      consumes:
+      - application/json
+      description: 保存大屏封面文件
+      parameters:
+      - description: file
+        in: formData
+        name: object
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 实例
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Big_screen'
+              type: object
+        "500":
+          description: 错误code和错误信息
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 保存大屏封面文件
+      tags:
+      - Big_screen
+  /topology:
+    get:
+      description: 分页查询topo实例
+      parameters:
+      - description: current page
+        in: query
+        name: _page
+        type: integer
+      - description: page size
+        in: query
+        name: _page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 实例的数组
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/common.Page'
+                  - properties:
+                      items:
+                        items:
+                          $ref: '#/definitions/entity.Topology'
+                        type: array
+                    type: object
+              type: object
+        "500":
+          description: 错误code和错误信息
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 分页查询topo实例
+      tags:
+      - Topology
+    post:
+      consumes:
+      - application/json
+      description: 保存topology
+      parameters:
+      - description: topology全部信息
+        in: body
+        name: item
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Topology'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 实例
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/entity.Topology'
+              type: object
+        "500":
+          description: 错误code和错误信息
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 保存topology
+      tags:
+      - Topology
+  /topology-query:
+    get:
+      description: 根据条件查询, 可设置 order, 以及查询条件等，例如 status=1, name=$like.%25%25CAM%25%25
+        等
+      parameters:
+      - description: order
+        in: query
+        name: _order
+        type: string
+      - description: select
+        in: query
+        name: _select
+        type: string
+      - description: id
+        in: query
+        name: id
+        type: string
+      - description: created_by
+        in: query
+        name: created_by
+        type: string
+      - description: created_time
+        in: query
+        name: created_time
+        type: string
+      - description: updated_by
+        in: query
+        name: updated_by
+        type: string
+      - description: updated_time
+        in: query
+        name: updated_time
+        type: string
+      - description: group_id
+        in: query
+        name: group_id
+        type: string
+      - description: file_data
+        in: query
+        name: file_data
+        type: string
+      - description: key_name
+        in: query
+        name: key_name
+        type: string
+      - description: name
+        in: query
+        name: name
+        type: string
+      - description: parent_id
+        in: query
+        name: parent_id
+        type: string
+      - description: remark
+        in: query
+        name: remark
+        type: string
+      - description: type
+        in: query
+        name: type
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 实例的数组
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/common.Page'
+                  - properties:
+                      items:
+                        items:
+                          $ref: '#/definitions/model.Topology'
+                        type: array
+                    type: object
+              type: object
+        "500":
+          description: 错误code和错误信息
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 根据条件查询
+      tags:
+      - Topology
+  /topology/{id}:
+    delete:
+      description: 删除topology
+      parameters:
+      - description: 实例id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 实例
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.Topology'
+              type: object
+        "500":
+          description: 错误code和错误信息
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 删除topology
+      tags:
+      - Topology
+swagger: "2.0"
